@@ -1,14 +1,14 @@
-import supertest from "supertest";
-import { DataSource, DeepPartial } from "typeorm";
-import app from "../../../app";
-import { AppDataSource } from "../../../data-source";
-import { RealEstate } from "../../../entities";
-import { readRealEstateRouteMock } from "../../mocks";
+import supertest from 'supertest';
+import { DataSource, DeepPartial } from 'typeorm';
+import app from '../../../app';
+import { AppDataSource } from '../../../data-source';
+import { RealEstate } from '../../../entities/entities.index';
+import { readRealEstateRouteMock } from '../../mocks';
 
-describe("GET /realEstate", () => {
+describe('GET /realEstate', () => {
   let connection: DataSource;
 
-  const baseUrl: string = "/realEstate";
+  const baseUrl: string = '/realEstate';
   let readRealEstate: Array<DeepPartial<RealEstate>>;
 
   beforeAll(async () => {
@@ -24,7 +24,7 @@ describe("GET /realEstate", () => {
     await connection.destroy();
   });
 
-  it("Success: Must be able list all real estates", async () => {
+  it('Success: Must be able list all real estates', async () => {
     const response = await supertest(app).get(baseUrl).send();
 
     const expectResults = {

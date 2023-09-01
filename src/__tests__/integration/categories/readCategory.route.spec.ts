@@ -1,15 +1,15 @@
-import supertest from "supertest";
-import { DataSource } from "typeorm";
-import app from "../../../app";
-import { AppDataSource } from "../../../data-source";
-import { Category } from "../../../entities";
-import { readCategoryRouteMock } from "../../mocks";
+import supertest from 'supertest';
+import { DataSource } from 'typeorm';
+import app from '../../../app';
+import { AppDataSource } from '../../../data-source';
+import { Category } from '../../../entities/entities.index';
+import { readCategoryRouteMock } from '../../mocks';
 
-describe("GET /categories", () => {
+describe('GET /categories', () => {
   let connection: DataSource;
 
   let categories: Array<Category>;
-  let baseUrl: string = "/categories";
+  let baseUrl: string = '/categories';
 
   beforeAll(async () => {
     await AppDataSource.initialize()
@@ -26,7 +26,7 @@ describe("GET /categories", () => {
     await connection.destroy();
   });
 
-  it("Success: Must be able to list all real states from a category", async () => {
+  it('Success: Must be able to list all real states from a category', async () => {
     const response = await supertest(app).get(baseUrl);
 
     const expectResults = {

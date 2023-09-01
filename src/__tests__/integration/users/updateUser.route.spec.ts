@@ -1,17 +1,17 @@
-import supertest from "supertest";
-import { DataSource } from "typeorm";
-import app from "../../../app";
-import { AppDataSource } from "../../../data-source";
-import { User } from "../../../entities";
-import { errorsMock, tokenMock, updateUserRouteMock } from "../../mocks";
+import supertest from 'supertest';
+import { DataSource } from 'typeorm';
+import app from '../../../app';
+import { AppDataSource } from '../../../data-source';
+import { User } from '../../../entities/entities.index';
+import { errorsMock, tokenMock, updateUserRouteMock } from '../../mocks';
 
-describe("PATCH /users", () => {
+describe('PATCH /users', () => {
   let connection: DataSource;
 
   let updateAdminUrl: string;
   let updateUserUrl: string;
-  const baseUrl: string = "/users";
-  const updateInvalidIDUrl: string = baseUrl + "/123456";
+  const baseUrl: string = '/users';
+  const updateInvalidIDUrl: string = baseUrl + '/123456';
 
   const userRepo = AppDataSource.getRepository(User);
   let userAdmin: User;
@@ -40,11 +40,11 @@ describe("PATCH /users", () => {
     await connection.destroy();
   });
 
-  it("Success: Admin must be able to update a user - Admin token - Full body", async () => {
+  it('Success: Admin must be able to update a user - Admin token - Full body', async () => {
     const response = await supertest(app)
       .patch(updateUserUrl)
       .set(
-        "Authorization",
+        'Authorization',
         `Bearer ${tokenMock.genToken(userAdmin.admin, userAdmin.id)}`
       )
       .send(updateUserRouteMock.userComplete);
@@ -64,11 +64,11 @@ describe("PATCH /users", () => {
     );
   });
 
-  it("Success: Admin must be able to self update - Admin token - Full body", async () => {
+  it('Success: Admin must be able to self update - Admin token - Full body', async () => {
     const response = await supertest(app)
       .patch(updateAdminUrl)
       .set(
-        "Authorization",
+        'Authorization',
         `Bearer ${tokenMock.genToken(userAdmin.admin, userAdmin.id)}`
       )
       .send(updateUserRouteMock.userComplete);
@@ -88,11 +88,11 @@ describe("PATCH /users", () => {
     );
   });
 
-  it("Success: User must be able to self update - User token - Full body", async () => {
+  it('Success: User must be able to self update - User token - Full body', async () => {
     const response = await supertest(app)
       .patch(updateUserUrl)
       .set(
-        "Authorization",
+        'Authorization',
         `Bearer ${tokenMock.genToken(userNotAdmin.admin, userNotAdmin.id)}`
       )
       .send(updateUserRouteMock.userComplete);
@@ -112,11 +112,11 @@ describe("PATCH /users", () => {
     );
   });
 
-  it("Success: Admin must be able to self update - Admin token - Partial", async () => {
+  it('Success: Admin must be able to self update - Admin token - Partial', async () => {
     const response = await supertest(app)
       .patch(updateAdminUrl)
       .set(
-        "Authorization",
+        'Authorization',
         `Bearer ${tokenMock.genToken(userAdmin.admin, userAdmin.id)}`
       )
       .send(updateUserRouteMock.userPartial);
@@ -134,11 +134,11 @@ describe("PATCH /users", () => {
     );
   });
 
-  it("Success: User must be able to self update - User token - Partial", async () => {
+  it('Success: User must be able to self update - User token - Partial', async () => {
     const response = await supertest(app)
       .patch(updateUserUrl)
       .set(
-        "Authorization",
+        'Authorization',
         `Bearer ${tokenMock.genToken(userAdmin.admin, userNotAdmin.id)}`
       )
       .send(updateUserRouteMock.userPartial);
@@ -160,7 +160,7 @@ describe("PATCH /users", () => {
     const response = await supertest(app)
       .patch(updateAdminUrl)
       .set(
-        "Authorization",
+        'Authorization',
         `Bearer ${tokenMock.genToken(userAdmin.admin, userAdmin.id)}`
       )
       .send(updateUserRouteMock.userAdmin);
@@ -182,7 +182,7 @@ describe("PATCH /users", () => {
     const response = await supertest(app)
       .patch(updateUserUrl)
       .set(
-        "Authorization",
+        'Authorization',
         `Bearer ${tokenMock.genToken(userNotAdmin.admin, userNotAdmin.id)}`
       )
       .send(updateUserRouteMock.userAdmin);
@@ -200,11 +200,11 @@ describe("PATCH /users", () => {
     );
   });
 
-  it("Error: User must not be able to update admin - User token", async () => {
+  it('Error: User must not be able to update admin - User token', async () => {
     const response = await supertest(app)
       .patch(updateAdminUrl)
       .set(
-        "Authorization",
+        'Authorization',
         `Bearer ${tokenMock.genToken(userNotAdmin.admin, userNotAdmin.id)}`
       )
       .send(updateUserRouteMock.userComplete);
@@ -213,7 +213,7 @@ describe("PATCH /users", () => {
     expect(response.body).toStrictEqual(errorsMock.forbidden.error);
   });
 
-  it("Error: Must not be able to update - Missing bearer", async () => {
+  it('Error: Must not be able to update - Missing bearer', async () => {
     const response = await supertest(app)
       .patch(updateAdminUrl)
       .send(updateUserRouteMock.userComplete);
@@ -222,31 +222,31 @@ describe("PATCH /users", () => {
     expect(response.body).toStrictEqual(errorsMock.missingBearer.error);
   });
 
-  it("Error: Must not be able to update - Invalid signature", async () => {
+  it('Error: Must not be able to update - Invalid signature', async () => {
     const response = await supertest(app)
       .patch(updateAdminUrl)
-      .set("Authorization", `Bearer ${tokenMock.invalidSignature}`)
+      .set('Authorization', `Bearer ${tokenMock.invalidSignature}`)
       .send(updateUserRouteMock.userComplete);
 
     expect(response.status).toBe(errorsMock.invalidSignature.status);
     expect(response.body).toStrictEqual(errorsMock.invalidSignature.error);
   });
 
-  it("Error: Must not be able to update - JWT malformed", async () => {
+  it('Error: Must not be able to update - JWT malformed', async () => {
     const response = await supertest(app)
       .patch(updateAdminUrl)
-      .set("Authorization", `Bearer ${tokenMock.jwtMalformed}`)
+      .set('Authorization', `Bearer ${tokenMock.jwtMalformed}`)
       .send(updateUserRouteMock.userComplete);
 
     expect(response.status).toBe(errorsMock.jwtMalformed.status);
     expect(response.body).toStrictEqual(errorsMock.jwtMalformed.error);
   });
 
-  it("Error: Must not be able to update - Invalid ID", async () => {
+  it('Error: Must not be able to update - Invalid ID', async () => {
     const response = await supertest(app)
       .patch(updateInvalidIDUrl)
       .set(
-        "Authorization",
+        'Authorization',
         `Bearer ${tokenMock.genToken(userNotAdmin.admin, userNotAdmin.id)}`
       )
       .send(updateUserRouteMock.userComplete);

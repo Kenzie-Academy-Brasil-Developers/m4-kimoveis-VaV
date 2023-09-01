@@ -1,14 +1,14 @@
-import supertest from "supertest";
-import { DataSource } from "typeorm";
-import app from "../../../app";
-import { AppDataSource } from "../../../data-source";
-import { User } from "../../../entities";
-import { createSessionRouteMock } from "../../mocks";
+import supertest from 'supertest';
+import { DataSource } from 'typeorm';
+import app from '../../../app';
+import { AppDataSource } from '../../../data-source';
+import { User } from '../../../entities/entities.index';
+import { createSessionRouteMock } from '../../mocks';
 
-describe("POST /login", () => {
+describe('POST /login', () => {
   let connection: DataSource;
 
-  const baseUrl: string = "/login";
+  const baseUrl: string = '/login';
   const userRepo = AppDataSource.getRepository(User);
 
   beforeAll(async () => {
@@ -26,7 +26,7 @@ describe("POST /login", () => {
     await connection.destroy();
   });
 
-  it("Success: Must be able to login", async () => {
+  it('Success: Must be able to login', async () => {
     const user: User = userRepo.create(createSessionRouteMock.userActive);
     await userRepo.save(user);
 
@@ -43,7 +43,7 @@ describe("POST /login", () => {
     expect(response.body).toStrictEqual(expectResults.bodyEqual);
   });
 
-  it("Error: Must not be able to login - Invalid credential 1 - Wrong password", async () => {
+  it('Error: Must not be able to login - Invalid credential 1 - Wrong password', async () => {
     const user: User = userRepo.create(createSessionRouteMock.userActive);
     await userRepo.save(user);
 
@@ -53,14 +53,14 @@ describe("POST /login", () => {
 
     const expectResults = {
       status: 401,
-      bodyEqual: { message: "Invalid credentials" },
+      bodyEqual: { message: 'Invalid credentials' },
     };
 
     expect(response.status).toBe(expectResults.status);
     expect(response.body).toStrictEqual(expectResults.bodyEqual);
   });
 
-  it("Error: Must not be able to login - Invalid credential 2 - Wrong email", async () => {
+  it('Error: Must not be able to login - Invalid credential 2 - Wrong email', async () => {
     const user: User = userRepo.create(createSessionRouteMock.userActive);
     await userRepo.save(user);
 
@@ -70,14 +70,14 @@ describe("POST /login", () => {
 
     const expectResults = {
       status: 401,
-      bodyEqual: { message: "Invalid credentials" },
+      bodyEqual: { message: 'Invalid credentials' },
     };
 
     expect(response.status).toBe(expectResults.status);
     expect(response.body).toStrictEqual(expectResults.bodyEqual);
   });
 
-  it("Error: Must not be able to login - Invalid credential 3 - User inactive", async () => {
+  it('Error: Must not be able to login - Invalid credential 3 - User inactive', async () => {
     const user: User = userRepo.create(createSessionRouteMock.userToInactive);
     await userRepo.save(user);
     await userRepo.softRemove(user);
@@ -88,7 +88,7 @@ describe("POST /login", () => {
 
     const expectResults = {
       status: 401,
-      bodyEqual: { message: "Invalid credentials" },
+      bodyEqual: { message: 'Invalid credentials' },
     };
 
     expect(response.status).toBe(expectResults.status);

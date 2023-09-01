@@ -1,16 +1,16 @@
-import supertest from "supertest";
-import { DataSource } from "typeorm";
-import app from "../../../app";
-import { AppDataSource } from "../../../data-source";
-import { RealEstate } from "../../../entities";
-import { errorsMock, readCategoryRealStateRouteMock } from "../../mocks";
+import supertest from 'supertest';
+import { DataSource } from 'typeorm';
+import app from '../../../app';
+import { AppDataSource } from '../../../data-source';
+import { RealEstate } from '../../../entities/entities.index';
+import { errorsMock, readCategoryRealStateRouteMock } from '../../mocks';
 
-describe("GET /categories/:id/realEstate", () => {
+describe('GET /categories/:id/realEstate', () => {
   let connection: DataSource;
 
   let categoryRealEstate: Array<RealEstate>;
-  let baseUrl: string = "/categories";
-  const readInvalidIDUrl: string = baseUrl + "/123456/realEstate";
+  let baseUrl: string = '/categories';
+  const readInvalidIDUrl: string = baseUrl + '/123456/realEstate';
 
   beforeAll(async () => {
     await AppDataSource.initialize()
@@ -31,7 +31,7 @@ describe("GET /categories/:id/realEstate", () => {
     await connection.destroy();
   });
 
-  it("Success: Must be able to list all real states from a category", async () => {
+  it('Success: Must be able to list all real states from a category', async () => {
     const response = await supertest(app).get(baseUrl);
 
     const expectResults = {
@@ -43,7 +43,7 @@ describe("GET /categories/:id/realEstate", () => {
     expect(response.body).toEqual(expectResults.bodyEqual);
   });
 
-  it("Error: Must be not able to list all real states from a category - Invalid ID", async () => {
+  it('Error: Must be not able to list all real states from a category - Invalid ID', async () => {
     const response = await supertest(app).get(readInvalidIDUrl);
 
     expect(response.status).toBe(errorsMock.notFound.category.status);
