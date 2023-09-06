@@ -1,4 +1,4 @@
-import { getRounds, hashSync } from 'bcryptjs';
+import { hashSync } from 'bcryptjs';
 import {
   BeforeInsert,
   BeforeUpdate,
@@ -37,13 +37,13 @@ class User {
   admin: boolean;
 
   @CreateDateColumn({ type: 'date' })
-  createdAt?: string | Date;
+  createdAt: string | Date;
 
   @UpdateDateColumn({ type: 'date' })
-  updatedAt?: string | Date;
+  updatedAt: string | Date;
 
   @DeleteDateColumn({ type: 'date' })
-  deletedAt?: string | Date;
+  deletedAt: string | Date;
 }
 
 export default User;

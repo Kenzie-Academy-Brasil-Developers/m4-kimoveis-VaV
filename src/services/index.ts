@@ -12,6 +12,10 @@ import CategoryReadingService from './categories.services';
 
 import CategoryRecordByRealEstateService from './categories.services';
 
+import scheduleCreationService from './schedules.services';
+
+import realEstateScheduleListing from './schedules.services';
+
 export {
   userCreationService,
   userReadingService,
@@ -20,4 +24,6 @@ export {
   categoryCreationService,
   CategoryReadingService,
   CategoryRecordByRealEstateService,
+  scheduleCreationService,
+  realEstateScheduleListing,
 };

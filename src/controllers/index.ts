@@ -11,6 +11,11 @@ import {
   categoryRecordByRealEstateController,
 } from './categories.controller';
 
+import {
+  scheduleCreationController,
+  realEstateScheduleListingController,
+} from './schedule.controllers';
+
 export {
   userCreationController,
   userReadingController,
@@ -19,4 +24,6 @@ export {
   categoryCreationController,
   categoryReadingController,
   categoryRecordByRealEstateController,
+  scheduleCreationController,
+  realEstateScheduleListingController,
 };
