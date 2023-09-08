@@ -16,6 +16,8 @@ import scheduleCreationService from './schedules.services';
 
 import realEstateScheduleListing from './schedules.services';
 
+import tokenCreationService from './login.services';
+
 export {
   userCreationService,
   userReadingService,
@@ -26,4 +28,5 @@ export {
   CategoryRecordByRealEstateService,
   scheduleCreationService,
   realEstateScheduleListing,
+  tokenCreationService
 };

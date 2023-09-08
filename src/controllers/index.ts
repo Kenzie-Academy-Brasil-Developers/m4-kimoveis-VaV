@@ -16,6 +16,8 @@ import {
   realEstateScheduleListingController,
 } from './schedule.controllers';
 
+import { tokenCreationController } from './login.controller';
+
 export {
   userCreationController,
   userReadingController,
@@ -26,4 +28,5 @@ export {
   categoryRecordByRealEstateController,
   scheduleCreationController,
   realEstateScheduleListingController,
+  tokenCreationController,
 };

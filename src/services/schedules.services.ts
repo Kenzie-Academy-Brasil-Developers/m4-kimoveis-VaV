@@ -29,20 +29,17 @@ const scheduleCreationService = async (
   });
 
   if (!realEstate) {
-    throw new AppError('RealEstate not found', 404);
+    throw new AppError('Internal server error', 404);
   }
 
   const day = new Date(dataSchedule.date).getDay();
   if (day === 0 || day === 6) {
-    throw new AppError('Weekend Visitation not allowed', 400);
+    throw new AppError('Invalid date, work days are mondays to friday', 400);
   }
 
   const hour = new Date(dataSchedule.date + ' ' + dataSchedule.hour).getHours();
   if (hour < 8 || hour > 18) {
-    throw new AppError(
-      'Visitation times are from 08:00AM through 18:00PM',
-      400
-    );
+    throw new AppError('Invalid hour, available times are 8AM to 18PM', 400);
   }
 
   const scheduleCheckUp = await scheduleRepo
@@ -54,7 +51,7 @@ const scheduleCreationService = async (
 
   if (scheduleCheckUp) {
     throw new AppError(
-      'you already have a scheduled appointment at this date and hour!',
+      'User schedule to this real estate at this date and time already exists',
       409
     );
   }
@@ -70,7 +67,7 @@ const scheduleCreationService = async (
 
   if (realEstateScheduleCheckUp) {
     throw new AppError(
-      'there is already a schedule for this time and date at the requested realEstate',
+      'Schedule to this real estate at this date and time already exists',
       409
     );
   }
