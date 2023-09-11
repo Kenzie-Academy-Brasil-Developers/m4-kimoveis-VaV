@@ -29,6 +29,7 @@ userRoutes.patch(
 
   middlewares.dataValidation(userUpdatedSchema),
   middlewares.tokenValidation,
+  middlewares.userValidation,
   middlewares.adminOrUserValidation,
   userUpdatingController
 );

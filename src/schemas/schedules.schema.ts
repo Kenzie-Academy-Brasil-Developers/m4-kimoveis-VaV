@@ -6,7 +6,7 @@ import { userSchema } from './user.schema';
 
 const scheduleSchema = z.object({
   id: z.number(),
-  date: z.string().or(z.date()),
+  date: z.string(),
   hour: z.string(),
   realEstate: realEstateSchema,
   user: userSchema,

@@ -23,7 +23,7 @@ const realEstateCreationService = async (
 
   const foundAddress = await addressRepo.findOneBy({
     ...address,
-    number: address.number,
+    number: address.number
   });
 
   if (foundAddress) {
@@ -32,6 +32,11 @@ const realEstateCreationService = async (
 
   const newAddress: Address = addressRepo.create(address);
   await addressRepo.save(newAddress);
+
+const updateRepo: Repository<RealEstate> = AppDataSource.getRepository(RealEstate);
+
+const newUpdatedRepo: RealEstate= updateRepo.create();
+await updateRepo.save(newUpdatedRepo)
 
   const realEstate: RealEstate = realEstateRepo.create({
     ...realEstateBody,
@@ -42,6 +47,7 @@ const realEstateCreationService = async (
 
   return realEstate;
 };
+
 
 const realEstateReadingService =
   async (): Promise<MultipleRealEstateResponse> => {
@@ -56,4 +62,4 @@ const realEstateReadingService =
     return realEstate;
   };
 
-export default realEstateCreationService, realEstateReadingService;
+export default { realEstateCreationService, realEstateReadingService };

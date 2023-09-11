@@ -34,7 +34,7 @@ const scheduleCreationService = async (
 
   const day = new Date(dataSchedule.date).getDay();
   if (day === 0 || day === 6) {
-    throw new AppError('Invalid date, work days are mondays to friday', 400);
+    throw new AppError('Invalid date, work days are monday to friday', 400);
   }
 
   const hour = new Date(dataSchedule.date + ' ' + dataSchedule.hour).getHours();

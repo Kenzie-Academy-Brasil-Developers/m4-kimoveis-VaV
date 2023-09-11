@@ -19,8 +19,8 @@ const emailValidation = async (
 
   const user = await userRepo.find({
     where: {
-      email: userEmail,
-    },
+      email: userEmail
+    }
   });
 
   if (user.length > 0) {

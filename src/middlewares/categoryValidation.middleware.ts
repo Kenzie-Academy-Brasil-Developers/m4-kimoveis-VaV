@@ -1,4 +1,4 @@
-import { request, response, NextFunction, Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { Repository } from 'typeorm';
 import Category from '../entities/categories.entities';
 import { AppDataSource } from '../data-source';
